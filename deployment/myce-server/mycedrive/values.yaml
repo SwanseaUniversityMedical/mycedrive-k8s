@@ -87,7 +87,7 @@ persistence:
   enabled: true
   accessMode: ReadWriteMany
   size: 1Gi
-  storageClass: "standard"
+  storageClass: "ceph-filesystem"
 
 nodeSelector: {}
 
