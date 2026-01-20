@@ -49,7 +49,7 @@ jobs:
       registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-dmtcp
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: dmtcp/Dockerfile
+      build-file: ./dmtcp/Dockerfile
       build-context: .
       platforms: "linux/amd64"
       comment-pr: true
@@ -68,7 +68,7 @@ jobs:
       registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-server
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: go-server/Dockerfile
+      build-file: ./go-server/Dockerfile
       build-context: .
       platforms: "linux/amd64"
       comment-pr: true
@@ -87,7 +87,7 @@ jobs:
       registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-agent
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: go-agent/Dockerfile
+      build-file: ./go-agent/Dockerfile
       build-context: .
       platforms: "linux/amd64"
       comment-pr: true
@@ -106,7 +106,7 @@ jobs:
       registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-mosquitto-example
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: examples/mosquitto_d/Dockerfile
+      build-file: ./examples/mosquitto_d/Dockerfile
       build-context: .
       platforms: "linux/amd64"
       comment-pr: true
@@ -125,7 +125,7 @@ jobs:
       registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-rabbitmq-example
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: examples/rabbitmq_d/Dockerfile
+      build-file: ./examples/rabbitmq_d/Dockerfile
       build-context: .
       platforms: "linux/amd64"
       comment-pr: true
