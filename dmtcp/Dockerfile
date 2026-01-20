@@ -1,12 +1,11 @@
 # Dockerfile to build DMTCP container images.
-FROM ubuntu:16.04
-MAINTAINER Kapil Arya <kapil@ccs.neu.edu>
+FROM ubuntu:24.04
 
 RUN apt-get update -q && apt-get -qy install    \
       build-essential                           \
       git-core                                  \
       make                                      \
-      python \
+      python3 \
       gcc \
       g++
 
