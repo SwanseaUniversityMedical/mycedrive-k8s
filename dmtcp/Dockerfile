@@ -6,7 +6,9 @@ RUN apt-get update -q && apt-get -qy install    \
       build-essential                           \
       git-core                                  \
       make                                      \
-      python
+      python \
+      gcc \
+      g++
 
 RUN mkdir -p /dmtcp
 RUN mkdir -p /tmp
