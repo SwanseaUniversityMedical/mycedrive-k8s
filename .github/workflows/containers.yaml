@@ -50,7 +50,7 @@ jobs:
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       build-file: dmtcp/Dockerfile
-      build-context: .
+      build-context: dmtcp/
       platforms: "linux/amd64"
       comment-pr: true
     secrets:
@@ -69,7 +69,7 @@ jobs:
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       build-file: go-server/Dockerfile
-      build-context: .
+      build-context: go-server/
       platforms: "linux/amd64"
       comment-pr: true
     secrets:
@@ -88,7 +88,7 @@ jobs:
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       build-file: go-agent/Dockerfile
-      build-context: .
+      build-context: go-agent/
       platforms: "linux/amd64"
       comment-pr: true
     secrets:
@@ -126,7 +126,7 @@ jobs:
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       build-file: examples/rabbitmq_d/Dockerfile
-      build-context: .
+      build-context: examples/rabbitmq_d/
       platforms: "linux/amd64"
       comment-pr: true
     secrets:
