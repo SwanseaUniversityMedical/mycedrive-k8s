@@ -107,7 +107,7 @@ jobs:
       release-info: ${{ needs.containers.outputs.release-info }}
       cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       build-file: examples/mosquitto_d/Dockerfile
-      build-context: .
+      build-context: examples/mosquitto_d/
       platforms: "linux/amd64"
       comment-pr: true
     secrets:
