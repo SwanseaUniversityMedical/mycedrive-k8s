@@ -13,7 +13,7 @@ RUN mkdir -p /tmp
 
 WORKDIR /dmtcp
 RUN git clone https://github.com/dmtcp/dmtcp.git /dmtcp && \
-      git checkout master &&                    \
+      git checkout main &&                    \
       git log -n 1
 
 RUN ./configure --prefix=/usr && make -j 2 && make install
