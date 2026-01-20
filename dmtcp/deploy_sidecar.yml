@@ -17,7 +17,7 @@ spec:
         emptyDir: {}
       containers:
       - name: mosquitto
-        image: prrsjunior/mosquitto:arq1
+        image: prrsjunior/mosquitto:1.2.1
         ports:
         - containerPort: 9001
         - containerPort: 1883
