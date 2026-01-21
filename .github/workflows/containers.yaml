@@ -115,21 +115,21 @@ jobs:
       cosign-password: ${{ secrets.COSIGN_PASSWORD }}
       registry-token: ${{ secrets.HARBOR_TOKEN }}
 
-  rabbitmq-example-container:
-    needs: containers
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
-    with:
-      job-name: rabbitmq-example-container
-      registry: ${{ vars.HARBOR_REGISTRY }}
-      registry-user: ${{ vars.HARBOR_USER }}
-      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-rabbitmq-example
-      release-info: ${{ needs.containers.outputs.release-info }}
-      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
-      build-file: examples/rabbitmq_d/Dockerfile
-      build-context: examples/rabbitmq_d/
-      platforms: "linux/amd64"
-      comment-pr: true
-    secrets:
-      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
-      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
-      registry-token: ${{ secrets.HARBOR_TOKEN }}
+#  rabbitmq-example-container:
+#    needs: containers
+#    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+#    with:
+#      job-name: rabbitmq-example-container
+#      registry: ${{ vars.HARBOR_REGISTRY }}
+#      registry-user: ${{ vars.HARBOR_USER }}
+#      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-rabbitmq-example
+#      release-info: ${{ needs.containers.outputs.release-info }}
+#      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+#      build-file: examples/rabbitmq_d/Dockerfile
+#      build-context: examples/rabbitmq_d/
+#      platforms: "linux/amd64"
+#      comment-pr: true
+#    secrets:
+#      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+#      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+#      registry-token: ${{ secrets.HARBOR_TOKEN }}
