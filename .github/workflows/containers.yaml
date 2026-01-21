@@ -1,0 +1,135 @@
+name: Build containers
+on:
+  pull_request:
+    # Only consider PRs that change files for this asset, including ci scripts.
+    paths:
+      - '.github/workflows/containers.yaml'
+      - 'dmtcp/**'
+      - 'examples/**'
+      - 'go-agent/**'
+      - 'go-server/**'
+  push:
+    # Only release off of release and maintenance branches for this asset
+    branches:
+      - 'main'
+    # Only consider pushes that change files for this asset, including ci scripts
+    paths:
+      - '.github/workflows/containers.yaml'
+      - 'dmtcp/**'
+      - 'examples/**'
+      - 'go-agent/**'
+      - 'go-server/**'
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel early on pull requests if new commits are added,
+  # Don't cancel on release pushes
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  # Job name must be unique across repo to target
+  # branch protection rules "required checks" properly!
+  containers:
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/pr-and-release-repo.yaml@v2.1.2-repo
+    with:
+      job-name: containers
+      release-tag-format: 'v${version}-containers'
+
+  dmtcp-container:
+    needs: containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+    with:
+      job-name: dmtcp-container
+      registry: ${{ vars.HARBOR_REGISTRY }}
+      registry-user: ${{ vars.HARBOR_USER }}
+      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-dmtcp
+      release-info: ${{ needs.containers.outputs.release-info }}
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+      build-file: dmtcp/Dockerfile
+      build-context: dmtcp/
+      platforms: "linux/amd64"
+      comment-pr: true
+    secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+      registry-token: ${{ secrets.HARBOR_TOKEN }}
+
+  server-container:
+    needs: containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+    with:
+      job-name: server-container
+      registry: ${{ vars.HARBOR_REGISTRY }}
+      registry-user: ${{ vars.HARBOR_USER }}
+      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-server
+      release-info: ${{ needs.containers.outputs.release-info }}
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+      build-file: go-server/Dockerfile
+      build-context: go-server/
+      platforms: "linux/amd64"
+      comment-pr: true
+    secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+      registry-token: ${{ secrets.HARBOR_TOKEN }}
+
+  agent-container:
+    needs: containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+    with:
+      job-name: agent-container
+      registry: ${{ vars.HARBOR_REGISTRY }}
+      registry-user: ${{ vars.HARBOR_USER }}
+      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-agent
+      release-info: ${{ needs.containers.outputs.release-info }}
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+      build-file: go-agent/Dockerfile
+      build-context: go-agent/
+      platforms: "linux/amd64"
+      comment-pr: true
+    secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+      registry-token: ${{ secrets.HARBOR_TOKEN }}
+
+  mosquitto-example-container:
+    needs: containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+    with:
+      job-name: mosquitto-example-container
+      registry: ${{ vars.HARBOR_REGISTRY }}
+      registry-user: ${{ vars.HARBOR_USER }}
+      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-mosquitto-example
+      release-info: ${{ needs.containers.outputs.release-info }}
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+      build-file: examples/mosquitto_d/Dockerfile
+      build-context: examples/mosquitto_d/
+      platforms: "linux/amd64"
+      comment-pr: true
+    secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+      registry-token: ${{ secrets.HARBOR_TOKEN }}
+
+#  rabbitmq-example-container:
+#    needs: containers
+#    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v2.1.0-bulk-containers
+#    with:
+#      job-name: rabbitmq-example-container
+#      registry: ${{ vars.HARBOR_REGISTRY }}
+#      registry-user: ${{ vars.HARBOR_USER }}
+#      registry-repo: ${{ vars.HARBOR_PROJECT }}/${{ vars.HARBOR_REPO }}-rabbitmq-example
+#      release-info: ${{ needs.containers.outputs.release-info }}
+#      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
+#      build-file: examples/rabbitmq_d/Dockerfile
+#      build-context: examples/rabbitmq_d/
+#      platforms: "linux/amd64"
+#      comment-pr: true
+#    secrets:
+#      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+#      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
+#      registry-token: ${{ secrets.HARBOR_TOKEN }}
