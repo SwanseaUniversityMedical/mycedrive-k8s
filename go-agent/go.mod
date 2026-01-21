@@ -3,7 +3,7 @@ module go-agent
 go 1.25
 
 require (
-	github.com/docker/docker v1.4.2-0.20190924003213-a8608b5b67c7
+	github.com/docker/docker v1.13.1
 	github.com/opencontainers/selinux v1.10.2
 	github.com/sirupsen/logrus v1.9.0
 )
