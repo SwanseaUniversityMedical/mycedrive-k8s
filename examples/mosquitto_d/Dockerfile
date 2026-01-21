@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
 RUN apt-get update 
-RUN apt-get install -y python3 python3-pip mosquitto mosquitto-clients && python3 -m pip install requests
+RUN apt-get install -y python3 python3-pip mosquitto mosquitto-clients && python3 -m pip install requests --break-system-packages
 
 VOLUME ["/mosquitto/data", "/mosquitto/log", "/dmtcp"]
 
