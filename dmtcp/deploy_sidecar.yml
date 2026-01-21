@@ -17,7 +17,7 @@ spec:
         emptyDir: {}
       containers:
       - name: mosquitto
-        image: prrsjunior/mosquitto:1.2.1
+        image: harbor.ukserp.ac.uk/mycedrive/mycedrive-mosquitto-example:pr-21
         ports:
         - containerPort: 9001
         - containerPort: 1883
@@ -30,7 +30,7 @@ spec:
         - name: dmtcp-shared
           mountPath: /dmtcp
       - name: dmtcp
-        image: prrsjunior/dmtcp:dev
+        image: harbor.ukserp.ac.uk/mycedrive/mycedrive-dmtcp:pr-21
 #        command: ["/dmtcp/bin/dmtcp_coordinator"]
 #        command: ["sleep 10000"]
         ports:
