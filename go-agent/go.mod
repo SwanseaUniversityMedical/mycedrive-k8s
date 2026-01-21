@@ -1,6 +1,6 @@
 module go-agent
 
-go 1.18
+go 1.25
 
 require (
 	github.com/docker/docker v1.4.2-0.20190924003213-a8608b5b67c7
