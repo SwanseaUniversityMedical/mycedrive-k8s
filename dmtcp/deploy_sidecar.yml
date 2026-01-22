@@ -18,6 +18,7 @@ spec:
       containers:
       - name: mosquitto
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-mosquitto-example:pr-21
+        imagePullPolicy: Always
         ports:
         - containerPort: 9001
         - containerPort: 1883
