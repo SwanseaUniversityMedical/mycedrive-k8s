@@ -19,6 +19,10 @@ type Message struct {
 }
 
 func main() {
+	if len(os.Args) < 3 {
+		log.Fatal("Usage: go-agent <rootDir> <layerCount>")
+	}
+
 	masterAddr := "localhost:3333"
 	rootDir := os.Args[1]
 	layerCount := os.Args[2]
