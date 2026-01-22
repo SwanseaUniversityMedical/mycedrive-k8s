@@ -44,7 +44,7 @@ spec:
         command: ["/bin/sh", "-c", "./main /share 2"]
         env:
         - name: MASTER_ADDR
-          value: "go-server:3333"
+          value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
         ports:
         - containerPort: 7779
         volumeMounts:
