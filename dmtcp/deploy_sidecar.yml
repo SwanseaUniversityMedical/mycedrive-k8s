@@ -31,6 +31,9 @@ spec:
         - name: dmtcp-shared
           mountPath: /dmtcp
         lifecycle:
+          #postStart:
+            #exec:
+              #command: [ "./migAgent $root_dir $layers" ]
         # End script to make sure the checkpoints are created
           preStop:
             exec:
@@ -38,7 +41,7 @@ spec:
       - name: agent
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
         imagePullPolicy: Always
-#        command: ["./main \"./\" 1"]
+        command: ["./main $root_dir $layers"]
 #        command: ["sleep 10000"]
         ports:
         - containerPort: 7779
