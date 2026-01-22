@@ -38,7 +38,7 @@ spec:
       - name: agent
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
         imagePullPolicy: Always
-        command: ["./main \"./\" 1"]
+#        command: ["./main \"./\" 1"]
 #        command: ["sleep 10000"]
         ports:
         - containerPort: 7779
