@@ -31,6 +31,7 @@ spec:
           mountPath: /dmtcp
       - name: dmtcp
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
+        imagePullPolicy: Always
 #        command: ["/dmtcp/bin/dmtcp_coordinator"]
 #        command: ["sleep 10000"]
         ports:
