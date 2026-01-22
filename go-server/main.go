@@ -42,6 +42,6 @@ func main() {
 
 	logs.LogInfo("Starting up execution with debug = " + strconv.FormatBool(debug))
 
-	router.Run("0.0.0.0:80")
+	router.Run("0.0.0.0:3333")
 
 }
