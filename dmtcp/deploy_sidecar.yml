@@ -45,6 +45,14 @@ spec:
         env:
         - name: MASTER_ADDR
           value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
+        - name: name
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ip
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - containerPort: 7779
         volumeMounts:
