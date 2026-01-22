@@ -8,8 +8,10 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.targetPort | default .Values.service.port }}
       protocol: TCP
-      name: http
+      name: server
   selector:
     {{- include "mycedrive.selectorLabels" . | nindent 4 }}
+  # publishNotReadyAddresses allows agents to connect immediately
+  publishNotReadyAddresses: true

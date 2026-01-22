@@ -23,7 +23,10 @@ func main() {
 		log.Fatal("Usage: go-agent <rootDir> <layerCount>")
 	}
 
-	masterAddr := "localhost:3333"
+	masterAddr := os.Getenv("MASTER_ADDR")
+	if masterAddr == "" {
+		masterAddr = "go-server:3333"
+	}
 	rootDir := os.Args[1]
 	layerCount := os.Args[2]
 
