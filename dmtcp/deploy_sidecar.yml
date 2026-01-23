@@ -42,6 +42,8 @@ spec:
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
         imagePullPolicy: Always
         command: ["/bin/sh", "-c", "./main /share 2"]
+        securityContext:
+          privileged: true
         env:
         - name: MASTER_ADDR
           value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
