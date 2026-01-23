@@ -43,7 +43,9 @@ spec:
         imagePullPolicy: Always
         command: ["/bin/sh", "-c", "./main /share 2"]
         securityContext:
-          privileged: true
+          capabilities:
+            add:
+              - SYS_ADMIN
         env:
         - name: MASTER_ADDR
           value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
