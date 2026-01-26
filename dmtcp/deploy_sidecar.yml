@@ -15,6 +15,8 @@ spec:
       volumes:
       - name: dmtcp-shared
         emptyDir: {}
+      - name: data-dir
+        emptyDir: {}
       containers:
       - name: mosquitto
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-mosquitto-example:pr-21
@@ -41,7 +43,9 @@ spec:
       - name: agent
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
         imagePullPolicy: Always
-        command: ["/bin/sh", "-c", "./main /share 2"]
+        # Uncomment to debug mount issues:
+        command: ["/bin/sh", "-c", "apk add --no-cache util-linux && mount -t overlay overlay -o lowerdir=/mnt/overlay,upperdir=/data/u1,workdir=/data/w1 /data/o11 2>&1 || true; sleep 3600"]
+        # command: ["/bin/sh", "-c", "./main /mnt/overlay 2"]
         env:
         - name: MASTER_ADDR
           value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
@@ -57,5 +61,7 @@ spec:
         - containerPort: 7779
         volumeMounts:
         - name: dmtcp-shared
-          mountPath: /share 
+          mountPath: /share
+        - name: data-dir
+          mountPath: /data 
 
