@@ -44,7 +44,7 @@ spec:
         image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
         imagePullPolicy: Always
         # Uncomment to debug mount issues:
-        command: ["/bin/sh", "-c", "apk add --no-cache util-linux && mount -t overlay overlay -o lowerdir=/mnt/overlay,upperdir=/data/u1,workdir=/data/w1 /data/o11 2>&1 || true; sleep 3600"]
+        command: ["/bin/sh", "-c", "apk add --no-cache util-linux && mkdir -p /data/u1 /data/w1 /data/o11 && mount -t overlay overlay -o lowerdir=/mnt/overlay,upperdir=/data/u1,workdir=/data/w1 /data/o11 2>&1; sleep 3600"]
         # command: ["/bin/sh", "-c", "./main /mnt/overlay 2"]
         env:
         - name: MASTER_ADDR
