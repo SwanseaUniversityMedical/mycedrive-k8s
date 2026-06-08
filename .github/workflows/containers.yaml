@@ -41,7 +41,7 @@ jobs:
 
   dmtcp-container:
     needs: containers
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v3.0.0-bulk-containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v4.0.0-bulk-containers
     with:
       job-name: dmtcp-container
       registry: ${{ vars.HARBOR_REGISTRY }}
@@ -59,7 +59,7 @@ jobs:
 
   server-container:
     needs: containers
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v3.0.0-bulk-containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v4.0.0-bulk-containers
     with:
       job-name: server-container
       registry: ${{ vars.HARBOR_REGISTRY }}
@@ -77,7 +77,7 @@ jobs:
 
   agent-container:
     needs: containers
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v3.0.0-bulk-containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v4.0.0-bulk-containers
     with:
       job-name: agent-container
       registry: ${{ vars.HARBOR_REGISTRY }}
@@ -95,7 +95,7 @@ jobs:
 
   mosquitto-example-container:
     needs: containers
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v3.0.0-bulk-containers
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v4.0.0-bulk-containers
     with:
       job-name: mosquitto-example-container
       registry: ${{ vars.HARBOR_REGISTRY }}
@@ -113,7 +113,7 @@ jobs:
 
 #  rabbitmq-example-container:
 #    needs: containers
-#    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v3.0.0-bulk-containers
+#    uses: SwanseaUniversityMedical/workflows/.github/workflows/bulk-pr-and-release-container.yaml@v4.0.0-bulk-containers
 #    with:
 #      job-name: rabbitmq-example-container
 #      registry: ${{ vars.HARBOR_REGISTRY }}
