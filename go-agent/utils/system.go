@@ -14,16 +14,30 @@ import (
 )
 
 func Run(command string, args string) []byte {
-	log.Println("running: ", command, args)
+	argFields := strings.Fields(args)
+	log.Printf("DEBUG: Executing command: %s %v", command, argFields)
 
-	cmd := exec.Command(command, strings.Fields(args)...)
-	stdout, err := cmd.Output()
+	cmd := exec.Command(command, argFields...)
+
+	var stdout, stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	err := cmd.Run()
 
 	if err != nil {
-		log.Printf("failed to run command: %s %s\n", err.Error(), stdout)
+		log.Printf("ERROR: Command failed: %s %s", command, args)
+		log.Printf("ERROR: Exit code: %v", err)
+		log.Printf("ERROR: Stdout: %s", stdout.String())
+		log.Printf("ERROR: Stderr: %s", stderr.String())
+	} else {
+		log.Printf("DEBUG: Command succeeded: %s", command)
+		if stdout.Len() > 0 {
+			log.Printf("DEBUG: Stdout: %s", stdout.String())
+		}
 	}
 
-	return stdout
+	return stdout.Bytes()
 }
 
 func ReceiveData() bool {

@@ -12,21 +12,28 @@ import (
 )
 
 type Message struct {
-	podName    string
-	podAddress string
-	isNew      bool
-	isMig      bool
+	PodName    string
+	PodAddress string
+	IsNew      bool
+	IsMig      bool
 }
 
 func main() {
-	masterAddr := "localhost:3333"
+	if len(os.Args) < 3 {
+		log.Fatal("Usage: go-agent <rootDir> <layerCount>")
+	}
+
+	masterAddr := os.Getenv("MASTER_ADDR")
+	if masterAddr == "" {
+		masterAddr = "go-server:3333"
+	}
 	rootDir := os.Args[1]
 	layerCount := os.Args[2]
 
 	ovLayer := overlay.Layer{RootDir: rootDir}
 
-	message := Message{podAddress: os.Getenv("ip"), isNew: true,
-		podName: os.Getenv("name"), isMig: false}
+	message := Message{PodAddress: os.Getenv("ip"), IsNew: true,
+		PodName: os.Getenv("name"), IsMig: false}
 
 	binBuf := new(bytes.Buffer)
 	enc := gob.NewEncoder(binBuf)
@@ -60,16 +67,16 @@ func main() {
 		log.Printf("Failed to parse response")
 	}
 
-	if message.isMig {
+	if message.IsMig {
 		utils.ReceiveData()
 		ovLayer.Init()
 	} else {
-		if message.isNew {
+		if message.IsNew {
 			ovLayer.Init()
 		} else {
 			for num, _ := range layerCount {
 				ovLayer.CreateLayer()
-				utils.SendFile(rootDir, message.podAddress, num)
+				utils.SendFile(rootDir, message.PodAddress, num)
 			}
 		}
 	}

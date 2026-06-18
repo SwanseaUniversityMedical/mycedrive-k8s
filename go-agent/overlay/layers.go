@@ -25,9 +25,14 @@ func (l Layer) CreateLayer() bool {
 		return false
 	}
 
+	// Fallback to the current root as a lowerdir when no layers exist yet
+	if len(lowLayers) == 0 {
+		lowLayers = []string{l.RootDir}
+	}
+
 	utils.Run("mkdir", "-p "+fmt.Sprintf("/data/u%d /data/w%d /data/o1%d", l.level, l.level, l.level))
 
-	utils.Run("mount", "-t "+fmt.Sprintf("overlay overlay -o1 lowerdir=%s,upperdir=/data/u%d,workdir=/data/w%d /data/o1%d", strings.Join(lowLayers, ":"), l.level, l.level, l.level))
+	utils.Run("mount", "-t "+fmt.Sprintf("overlay overlay -o lowerdir=%s,upperdir=/data/u%d,workdir=/data/w%d /data/o1%d", strings.Join(lowLayers, ":"), l.level, l.level, l.level))
 
 	utils.Run("umount", "-l "+l.RootDir)
 
@@ -46,6 +51,11 @@ func (l Layer) Init() bool {
 		return false
 	}
 
+	// Fallback to the current root as a lowerdir when no layers exist yet
+	if len(lowLayers) == 0 {
+		lowLayers = []string{l.RootDir}
+	}
+
 	l.rootLayer = len(lowLayers)
 	l.level = l.rootLayer + 1
 
@@ -53,7 +63,7 @@ func (l Layer) Init() bool {
 
 	utils.Run("mkdir", "-p "+fmt.Sprintf(" /data/u%d /data/w%d /data/o1%d", l.level, l.level, l.level))
 
-	utils.Run("mount", "-t "+fmt.Sprintf("overlay overlay -o1 lowerdir=%s,upperdir=/data/u%d,workdir=/data/w%d /data/o1%d", strings.Join(lowLayers, ":"), l.level, l.level, l.level))
+	utils.Run("mount", "-t "+fmt.Sprintf("overlay overlay -o lowerdir=%s,upperdir=/data/u%d,workdir=/data/w%d /data/o1%d", strings.Join(lowLayers, ":"), l.level, l.level, l.level))
 
 	return true
 }

@@ -15,9 +15,19 @@ spec:
       volumes:
       - name: dmtcp-shared
         emptyDir: {}
+      - name: data-dir
+        emptyDir: {}
+      initContainers:
+      - name: setup-overlay
+        image: alpine:latest
+        command: ["/bin/sh", "-c", "apk add --no-cache util-linux && mkdir -p /data/u1 /data/w1 /data/o11 && mount -t overlay overlay -o lowerdir=/mnt/overlay,upperdir=/data/u1,workdir=/data/w1 /data/o11 && echo 'Overlay mount successful'"]
+        volumeMounts:
+        - name: data-dir
+          mountPath: /data
       containers:
       - name: mosquitto
-        image: prrsjunior/mosquitto:1.2.1
+        image: harbor.ukserp.ac.uk/mycedrive/mycedrive-mosquitto-example:pr-21
+        imagePullPolicy: Always
         ports:
         - containerPort: 9001
         - containerPort: 1883
@@ -29,13 +39,34 @@ spec:
         volumeMounts:
         - name: dmtcp-shared
           mountPath: /dmtcp
-      - name: dmtcp
-        image: prrsjunior/dmtcp:dev
-#        command: ["/dmtcp/bin/dmtcp_coordinator"]
-#        command: ["sleep 10000"]
+        lifecycle:
+          #postStart:
+            #exec:
+              #command: [ "./migAgent $root_dir $layers" ]
+        # End script to make sure the checkpoints are created
+          preStop:
+            exec:
+              command: [ "./end_container" ]
+      - name: agent
+        image: harbor.ukserp.ac.uk/mycedrive/mycedrive-agent:pr-21
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c", "./main /mnt/overlay 2"]
+        env:
+        - name: MASTER_ADDR
+          value: "mycedrive.rowan-mycedrive.svc.cluster.local:3333"
+        - name: name
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ip
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - containerPort: 7779
         volumeMounts:
         - name: dmtcp-shared
-          mountPath: /share 
+          mountPath: /share
+        - name: data-dir
+          mountPath: /data 
 
